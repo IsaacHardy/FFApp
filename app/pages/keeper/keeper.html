@@ -7,5 +7,27 @@
 
 
 <ion-content padding class="keeper">
+  <form [ngFormModel]="keeperForm" (submit)="addKeeper($event)">
+    <ion-item>
+      <ion-label floating>Your Name</ion-label>
+      <ion-input type="text" ngControl="owner"></ion-input>
+    </ion-item>
 
+    <ion-item>
+      <ion-label floating>Player's Name</ion-label>
+      <ion-input type="text" ngControl="player"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>2015 Drafted Round</ion-label>
+      <ion-input type="number" ngControl="draftround"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>2016 Keeper Round</ion-label>
+      <ion-input type="number" ngControl="keepround"></ion-input>
+    </ion-item>
+    <br>
+    <button type="submit" [disabled]="!keeperForm.valid" block>Submit</button>
+  </form>
 </ion-content>

@@ -15,5 +15,12 @@
     "typescript": "1.7.5"
   },
   "name": "ffapp",
-  "description": "FFApp: An Ionic project"
+  "description": "FFApp: An Ionic project",
+  "cordovaPlugins": [
+    "cordova-sqlite-storage"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ]
 }
