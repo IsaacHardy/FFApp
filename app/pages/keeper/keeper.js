@@ -1,5 +1,6 @@
 import {Page, Storage} from 'ionic/ionic';
 import {FormBuilder, Validators} from 'angular2/common';
+import { CORE_DIRECTIVES } from "angular2/common";
 import {KeeperService} from '../../services/keeper.service';
 
 @Page({
@@ -8,7 +9,10 @@ import {KeeperService} from '../../services/keeper.service';
 })
 export class KeeperPage {
   constructor(keeperService: KeeperService, form: FormBuilder) {
+
     this.keeperService = keeperService;
+    this.keepers = this.keeperService.keepers;
+
     this.keeperForm = form.group({
       owner: ["", Validators.required],
       player: ["", Validators.required],
@@ -17,7 +21,7 @@ export class KeeperPage {
     });
   }
   addKeeper(event) {
-    event.preventDefault();
     this.keeperService.add(this.keeperForm.value);
+    event.preventDefault();
   }
 }

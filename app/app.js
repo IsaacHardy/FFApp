@@ -34,8 +34,7 @@ class MyApp {
     this.platform.ready().then(() => {
       this.storage = new Storage(SqlStorage);
       this.storage.query('CREATE TABLE IF NOT EXISTS keeper (id INTEGER PRIMARY KEY AUTOINCREMENT, owner TEXT, player TEXT, draftround TEXT, keepround TEXT)').then((data) => {
-          console.log(data);
-          console.log("TABLE CREATED -> " + JSON.stringify(data.res));
+          
       }, (error) => {
           console.log("ERROR -> " + JSON.stringify(error.err));
       });
