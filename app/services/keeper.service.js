@@ -5,9 +5,13 @@ import {Platform, Storage, SqlStorage} from 'ionic/ionic';
 export class KeeperService {
   constructor(platform: Platform) {
     this.platform = platform;
-    this.keepers = [];
     this.platform.ready().then(() => {
-        this.storage = new Storage(SqlStorage);
+        let options = {
+          name: 'keeper',
+          backupFlag: SqlStorage.BACKUP_LOCAL,
+          existingDatabase: true
+        };
+        this.storage = new Storage(SqlStorage, options);
         this.refresh();
     });
   }
@@ -19,22 +23,20 @@ export class KeeperService {
 
     this.platform.ready().then(() => {
         this.storage.query(`INSERT INTO keeper (owner, player, draftround, keepround) VALUES ('${this.owner}', '${this.player}', '${this.draftround}', '${this.keepround}')`).then((data) => {
-            // this.refresh();
+
         }, (error) => {
             console.log("ERROR -> " + JSON.stringify(error.err.message));
         });
     });
   }
   refresh() {
-    console.log(this);
     this.platform.ready().then(() => {
         this.storage.query("SELECT * FROM keeper").then((data) => {
-            console.log(data);
-
-
+          this.keepers = [];
             if(data.res.rows.length > 0) {
                 for(var i = 0; i < data.res.rows.length; i++) {
                     this.keepers.push({
+                      id: data.res.rows.item(i).id,
                       owner: data.res.rows.item(i).owner,
                       player: data.res.rows.item(i).player,
                       draftround: data.res.rows.item(i).draftround,
@@ -42,7 +44,6 @@ export class KeeperService {
                     });
                 }
             }
-
         }, (error) => {
             console.log("ERROR -> " + JSON.stringify(error.err));
         });

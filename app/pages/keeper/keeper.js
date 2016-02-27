@@ -1,17 +1,14 @@
-import {Page, Storage} from 'ionic/ionic';
+import {Page, Platform} from 'ionic/ionic';
 import {FormBuilder, Validators} from 'angular2/common';
-import { CORE_DIRECTIVES } from "angular2/common";
-import {KeeperService} from '../../services/keeper.service';
 
 @Page({
-  templateUrl: 'build/pages/keeper/keeper.html',
-  providers: [KeeperService],
+  templateUrl: 'build/pages/keeper/keeper.html'
 })
 export class KeeperPage {
-  constructor(keeperService: KeeperService, form: FormBuilder) {
-
-    this.keeperService = keeperService;
-    this.keepers = this.keeperService.keepers;
+  constructor(form: FormBuilder, platform: Platform) {
+    this.platform = platform;
+    this.keepers = [];
+    this.adding = false;
 
     this.keeperForm = form.group({
       owner: ["", Validators.required],
@@ -20,8 +17,21 @@ export class KeeperPage {
       keepround: ["", Validators.required],
     });
   }
-  addKeeper(event) {
-    this.keeperService.add(this.keeperForm.value);
-    event.preventDefault();
+  showKeeperForm() {
+    if (!this.adding) {
+      this.adding = true;
+    } else {
+      this.adding = false;
+    }
   }
+  addKeeper(event) {
+    this.owner = this.keeperForm.value.owner;
+    this.player = this.keeperForm.value.player;
+    this.draftround = this.keeperForm.value.draftround;
+    this.keepround = this.keeperForm.value.keepround;
+
+    event.preventDefault();
+    this.showKeeperForm();
+  }
+
 }

@@ -3,11 +3,20 @@
     <ion-icon name="menu"></ion-icon>
   </button>
   <ion-title>Keepers</ion-title>
+  <ion-buttons end>
+    <button small (click)="showKeeperForm()" *ngIf="!adding">
+      <ion-icon name="add"></ion-icon>
+      <ion-label>Add Keeper</ion-label>
+    </button>
+    <button small (click)="showKeeperForm()" *ngIf="adding">
+      <ion-label>Hide Form</ion-label>
+    </button>
+  </ion-buttons>
 </ion-navbar>
 
 
 <ion-content padding class="keeper">
-  <form [ngFormModel]="keeperForm" (submit)="addKeeper($event)">
+  <form [ngFormModel]="keeperForm" (submit)="addKeeper($event)" *ngIf="adding">
     <ion-item>
       <ion-label floating>Your Name</ion-label>
       <ion-input type="text" ngControl="owner"></ion-input>
@@ -31,7 +40,10 @@
     <button type="submit" [disabled]="!keeperForm.valid" block>Submit</button>
   </form>
 
-  <ion-list>
-    <ion-item *ngFor="#keeper of keepers">{{keeper.owner}} has kept {{keeper.player}}</ion-item>
+  <ion-list *ngIf="!adding">
+    <ion-card *ngFor="#keeper of keepers">
+      <ion-card-header>Owner: {{keeper.owner}}</ion-card-header>
+      <ion-card-content>Player: {{keeper.player}}</ion-card-content>
+    </ion-card>
   </ion-list>
 </ion-content>
